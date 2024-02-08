@@ -5,40 +5,40 @@ import { useNavigation } from '@react-navigation/native';
 
 const Login = ({loggedInState, loggedInStates,setLoggedInState})=>{
 
-      const navigation = useNavigation();
+  const navigation = useNavigation();
 
-      const [phoneNumber,setPhoneNumber] = React.useState("");
-      const [oneTimePassword, setOneTimePassword] = React.useState("");
+  const [phoneNumber,setPhoneNumber] = React.useState("");
+  const [oneTimePassword, setOneTimePassword] = React.useState("");
 
-      // const [isBiometricSupported, setIsBiometricSupported] = React.useState(false);
-      // const [isBiometricEnrolled, setIsBiometricEnrolled] = React.useState(false);
+  // const [isBiometricSupported, setIsBiometricSupported] = React.useState(false);
+  // const [isBiometricEnrolled, setIsBiometricEnrolled] = React.useState(false);
 
- useEffect(()=>{
-  if(loggedInState==loggedInStates.LOGGED_IN){
-    navigation.replace('Navigation');
-  }
- })    
+  useEffect(()=>{
+    if(loggedInState==loggedInStates.LOGGED_IN){
+      navigation.replace('Navigation');
+    }
+  })
 
- if(loggedInState==loggedInStates.NOT_LOGGED_IN){
+  if(loggedInState==loggedInStates.NOT_LOGGED_IN){
     return (
       <View style={styles.allBody}>
         <Text style={styles.title}>Welcome Back</Text>
-            {/* <Text style={styles.paragraph}> {isBiometricSupported ? 'Your device is compatible with Biometrics' 
+        {/* <Text style={styles.paragraph}> {isBiometricSupported ? 'Your device is compatible with Biometrics'
         : 'Your device is not compatible with Biometrics'}
             </Text>        
             <Text style={styles.paragraph}> {isBiometricEnrolled ? 'You have saved a fingerprint or face' 
         : 'You have not saved a fingerprint or face'}
             </Text>            */}
-              <TextInput 
-              value={phoneNumber}
-              onChangeText={setPhoneNumber}
-              style={styles.input}
-              backgroundColor='#e6f0d5'
-              placeholderTextColor='#818181' 
-              placeholder='Cell Phone'>          
-               </TextInput>
+        <TextInput
+          value={phoneNumber}
+          onChangeText={setPhoneNumber}
+          style={styles.input}
+          backgroundColor='#e6f0d5'
+          placeholderTextColor='#818181'
+          placeholder='Cell Phone'>
+        </TextInput>
 
-            {/* <TouchableOpacity
+        {/* <TouchableOpacity
              style={styles.bioButton}
               onPress={async () => {  
                 const biometricAuth = await LocalAuthentication.authenticateAsync({
@@ -51,36 +51,38 @@ const Login = ({loggedInState, loggedInStates,setLoggedInState})=>{
             <Text style={{color:'white'}}>Biometric Authentication</Text>
             </TouchableOpacity> */}
 
-             {/* <Text style={{fontSize:20, marginVertical:30, textAlign:'center', color:'#818181'}}>Or</Text> */}
+        {/* <Text style={{fontSize:20, marginVertical:30, textAlign:'center', color:'#818181'}}>Or</Text> */}
 
-            <TouchableOpacity
-               style={styles.sendButton}
-               onPress={async ()=>{
-               console.log(phoneNumber+' Button was pressed')
-    
-                const sendTextResponse=await fetch(
-                  'https://dev.stedi.me/twofactorlogin/'+phoneNumber,
-                  {
-                    method:'POST',
-                    headers:{
-                     'content-type':'application/text'
-                   }
-                  }
-                )
-                const sendTextResponseData = await sendTextResponse.text();
-                if(sendTextResponse.status!=200){//invalid phone number, send them to the signup page
-                  await Alert.alert("Did you type your number correctly? "+phoneNumber);
-                } else{
-                  setLoggedInState(loggedInStates.LOGGING_IN);
+        <TouchableOpacity
+          style={styles.sendButton}
+          onPress={async ()=>{
+          console.log(phoneNumber+' Button was pressed')
+
+            const sendTextResponse=await fetch(
+              'https://dev.stedi.me/twofactorlogin/'+phoneNumber,
+              {
+                method:'POST',
+                headers:{
+                  'content-type':'application/text'
                 }
-              }}
-            >
-              <Text style={styles.sendButton}>Hello, Mike!</Text>
-            </TouchableOpacity>
-    
-          </View>
-        )
-      }
+              }
+              )
+            const sendTextResponseData = await sendTextResponse.text();
+          if(sendTextResponse.status!=200){//invalid phone number, send them to the signup page
+            await Alert.alert("Did you type your number correctly? "+phoneNumber);
+          } else{
+            const name = "Mike";
+            Alert.alert(`Hello, ${name}`)
+            setLoggedInState(loggedInStates.LOGGING_IN);
+          }
+        }}
+          >
+          <Text style={{color:'white'}}>Send</Text>
+        </TouchableOpacity>
+
+      </View>
+      )
+  }
      else if(loggedInState==loggedInStates.LOGGING_IN){
         return (
           <View style={styles.allBody}>
