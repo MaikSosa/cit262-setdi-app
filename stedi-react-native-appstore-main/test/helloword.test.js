@@ -1,9 +1,10 @@
-import now_saymyname from "../utils/helloworld.mjs";
-import assert from 'assert';
+import saymyname from "../utils/helloworld.mjs";
+import expect from "jest-extended";
 
 it("W06 homework tests", ()=>{
-    const name=now_saymyname();
-//    console.log(`Hello ${name}!`);
-    assert.equal(name, "Mike");
-});
+    const name=saymyname();
+    console.log(`Hello ${name}!`);
+
+    expect(name).toBe("Mike");
+})
 

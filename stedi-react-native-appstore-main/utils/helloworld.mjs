@@ -1,4 +1,4 @@
-const now_saymyname=()=>{
+const saymyname = ()=>{
     return "Mike";
 }
-export default now_saymyname;
+export default saymyname;
